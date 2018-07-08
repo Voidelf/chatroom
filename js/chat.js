@@ -36,12 +36,12 @@ $(function(){
 
 	/*登录失败*/
 	socket.on('loginFail',function(){
-		alert('昵称重复')
+		alert('登录失败')
 	})
 
 	/*新人加入提示*/
 	socket.on('add',function(data){
-		var html = '<p>系统消息:'+data.username+'已加入群聊</p>';
+		var html = '<p>系统消息:'+data.username+'已进入梦境</p>';
 		$('.chat-con').append(html);
 	})
 
@@ -53,7 +53,7 @@ $(function(){
 	/*退出群聊提示*/
 	socket.on('leave',function(name){
 		if(name != null){
-			var html = '<p>FBI warning:'+name+'已退出群聊</p>';
+			var html = '<p>FBI warning:'+name+'已离开梦境</p>';
 			$('.chat-con').append(html);
 		}
 	})

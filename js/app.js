@@ -11,6 +11,8 @@ io.on('connection', function (socket) {
 	var isNewPerson = true; 
 	/*当前登录用户*/
     var username = null;
+    /*用户数量*/
+    var usernumber =0;
 	/*监听登录*/
 	socket.on('login',function(data){
 		for(var i=0;i<users.length;i++){
@@ -19,19 +21,25 @@ io.on('connection', function (socket) {
 	          	break;
 	        }else{
 	          	isNewPerson = true;
+	          	usernumber++;
 	        }
 	    }
-	    if(isNewPerson){
-	        username = data.username;
-	        users.push({
-	          username:data.username
-	        })
-	        /*登录成功*/
-	        socket.emit('loginSuccess',data);
-	        /*向所有连接的客户端广播add事件*/
-	        io.sockets.emit('add',data);
+	    if(usernumber<=2){
+	    	if(isNewPerson){
+	        	username = data.username;
+	        	users.push({
+	          		username:data.username
+	        	})
+	        	/*登录成功*/
+	        	socket.emit('loginSuccess',data);
+	        	/*向所有连接的客户端广播add事件*/
+	        	io.sockets.emit('add',data);
+	    	}else{
+	    		/*登录失败*/
+	        	socket.emit('loginFail','');
+	    	}
 	    }else{
-	    	/*登录失败*/
+			/*登录失败*/
 	        socket.emit('loginFail','');
 	    }  
 	})
